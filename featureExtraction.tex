@@ -1,0 +1,70 @@
+%!TEX root = ./main.tex
+\section{Spatio-Temporal User-Site Feature Extraction}
+\label{sec:method}
+
+Our goal is to extract a set of spatial-temporal features from a user's trajectory, which can be directly used to predict the rating of a PoI. There are many features that could potentially be related to a user's feeling of a PoI. We discuss in this section a set of common features we select for the rating prediction problem, and the methods we use to extra such features. It is easy to understand why these features are selected since they are intuitive.
+
+\subsection{Extracting the frequency of visits of a user}
+
+Our assumption is, if a user repeatedly visits a PoI, e.g., always dine in the same restaurant, it strongly suggests that the user favours the PoI. On the other hand, if a user visits a PoI only once and never comes back, it suggests the user dislike the place. Therefore we choose the frequency of visits as a feature. Here, each stay-point is considered a visit.
+
+In order to extra frequency information from a user's trajectories, we count for how many time the user visits a PoI in a given time period. Each check-in to the PoI is counted as one visit. Users are then assigned into several frequency groups (Table~\ref{frequencyGroups}) based on how often they visit the PoI. Note that if a user has never visited a PoI, he cannot rate it. Thus we do not assign any group for such users.
+
+\begin{table}[htbp]
+\begin{center}
+\caption{Groups based on how often user visits a location \label{frequencyGroups}}
+\begin{tabular}{|l|l|} \hline
+ID & \textbf{Frequency groups} \\ \hline
+1 & At least one visit per day \\ \hline
+2 & At least one visit per week \\ \hline
+3 & At least one visit per month \\ \hline
+4 & Less than one visit per month \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+We note a user's behaviour may vary over time. For example, if a user likes a shopping center, he may visit a shopping center very frequently during Thanksgiving and similar holidays, while visit the same place only once in several month during the rest of the year. As a result, the timing window used to count visits can have significant impact on the user's group assignment. For the same user, if we consider only visits happened in the Thanksgiving week, the user belongs to the ``At least one visit per week " group. However, if we look at the year-long visits, he may be grouped into ``Less than one visit per month" since his visits are averaged over twelve months. We propose a simple way to mitigate this problem.
+
+First, we use timing windows with different sizes simultaneously to compute the frequency of visits of a user. Specifically, given a user's trajectory data for a period of $n$ days, for each week/2 weeks/month within these $n$ days, we count the number of visits that falls in the same week/2 weeks/month. We then use this count to compute the user's group of that specific period. Here we use week and month as nature timing windows, but in practice the size of timing window can be arbitrary. Second, when a user's visit frequency demonstrates inconsistency in different time period with the same timing window size, we use his maximal visiting frequency, e.g., if a user visits a location 3 times a week in week 1, but 0 times in week 2, the user is then categorized as ``At least one visit per week" in this case. 
+
+Additionally, for each PoI, we calculate three numerical features that also describe a user's visiting pattern to the PoI: 1) \textbf{Average duration between two consecutive visits of the user}, 2) \textbf{Minimal duration between two consecutive visits of the user}, and 3) \textbf{Maximal duration between two consecutive visits of the user}. These information are supplemental to the frequency groups. 
+
+%We are interested in finding out their impact on the rating prediction result.
+
+\subsection{Extracting the length of stays of a user}
+
+Given a trajectory of a user, the length of stays can be inferred by examining the interval between consecutive check-ins of the user. If two visits are reported within a time threshold $\tau$, e.g., 30-minutes, it is safe to consider the two check-ins belong to the same stay. Thus, the minimal length of this stay is the time frame between the two check-ins. Similarly, an upper bound of the length of stay is the time between a check-in to the location and the closest check-in to a different location. This provides us with a coarse way to estimate the average length of stay of users to a PoI. This method is most accurate if the user's location is reported periodically with small intervals, or whenever the user changes location.
+
+\subsection{Extracting the travel distance of a user from its home base}
+
+If a user is willing to travel a long distance from his home/work area to a PoI, it is likely that the PoI is attractive to him. Unfortunately, measuring the travel distance from one's home/work can be challenging. This is because users' home or work address or coordinates are usually not explicitly marked in a spatial-temporal dataset due to privacy concerns.
+
+We use distance-based location clustering (e.g., weighted k-means~\cite{kerdprasop2005weighted}, where the weight of a location is the number of visits by the user) to estimate a user's home base, i.e., an area where he is likely to live/work. Locations a user visits frequently is likely to formulate a dense cluster in the area where he lives and works~\cite{golle2009anonymity, zang2011anonymization}. If there exists a location that is isolated from any of these clusters, we deem such a location as ``far from home". It requires extra effort for the user to travel this location. Willing to make such effort indicates the user may like the place. An example of home base and isolated locations is illustrated in Figure~\ref{example}.
+
+\begin{figure}[htb]
+\center
+%\vspace{-2mm}
+{\includegraphics[width=0.45 \textwidth]{homebase.pdf}}
+%\vspace{-12mm}
+\caption{Example of home base and isolated locations} 
+\label{example}
+%\vspace{-4mm}
+\end{figure}
+
+For each isolated location, we estimate the travelling effort for the user to reach the location. Using the distance between the isolated location and the user's home base may be biased. A user who likes to drive can easily travel to a mall several miles away from home, but for someone who does not have a car, travelling the same distance means significantly more effort. Instead, we use the relative travelling distance. For a location $l$, we compute $D_l = d_l / \overline{d_{home}}$ where $d_l$ is the minimal travel distance between $l$ and any home base location, and $\overline{d_{home}}$ the average travel distance between locations within the user's home base.
+
+\subsection{Extracting the type of PoI}
+
+A user's spatial-temporal behaviour can be very different in different types of PoIs. Suppose a user gives high rate for both a coffee stand and a theatre. It is common for a user to visit the coffee stand every day or even multiple times a day, while such a visiting pattern is not likely to appear for his visiting to the theatre. Given the diversity of locations, we believe the type of different PoIs serves as an important feature in the rating prediction process.
+
+Fortunately, in many spatial-temporal datasets (e.g., \cite{yang2014modeling}), a category is given for each PoI. Nevertheless, a dataset may provide only coordinate of visited locations with no additional information. One way to infer the type of PoI in this case is to match the coordinates to PoIs using geo-info systems such as GoogleMap, which provides detailed category information of PoIs.
+
+\subsection{Discussion}
+
+Due to limited space, we briefly discuss some other useful features that we conjecture are related to users' rating of PoIs.
+
+\myparatight{Regional difference} User's visiting pattern to some PoIs can be region-sensitive. Consider an example of two restaurants. Restaurant A locates near a busy train station while restaurant B is in suburb region. Even if the B provides better service than A, A may attract much more visitors comparing with B due to its better location. A possible way to mitigate the problem is to add a feature that describes region of a location (e.g., ``Downtown region", ``Less popular region", etc.) but it requires extra geo-demographic information which cloud be hard to collect. A simpler and efficient way is to explore the relation between nearby PoIs of the same type. The reason is intuitive. For example, given several restaurants close to each other, if all of them are visited by 100 users per day, except for one restaurants which has only 10 visitors per day, it is very likely that this restaurants has a bad rating.
+
+\myparatight{Scale of the PoI} It is worth mentioning that the scale of a PoI has an obvious impact on the total number of visits to it. A small convenient store, regardless of how users like it, is not likely to have even close number of visitors comparing with a large super market. However, to our knowledge, these is no convincing way that can accurately estimate scale of a PoI. We leave this for future exploration when such data is available.
+
+\myparatight{Social connection between users} The prevalence of LBSNs makes it easy to learn social connects between users. If several users who are socially connected check in at a PoI at the same time, it is likely that they have a group social event at the PoI. The fact that a group of friends choose to meet at a PoI suggests most of the users in the group like the place. We may also assume a user's rating of some PoIs is affected by the rating of his friends, given that they frequently visit a similar set of PoIs. In general Group-visits may demonstrate different pattern comparing with individual visits, and therefore can be used as a distinguished feature. 

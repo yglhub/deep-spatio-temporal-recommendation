@@ -1,0 +1,26 @@
+\section{Introduction}\label{sec:intro}
+Modern technology to capture geo-spatial information produces a
+huge flood of individual trajectory data, coupled with a new
+user mentality of utilizing this technology to voluntarily share information.
+McKinsey Global Institute \cite{manyika2011big} projects a ``\$600 billion
+potential annual consumer surplus from using personal location data globally''.
+Towards this goal of making location data actionable, we propose to mine potential user ratings for location sites (e.g., restaurants, shops) from spatial-temporal data. User ratings are critical in many applications, especially in recommendation system. Techniques such as widely used collaborative filtering use known user rating information to estimate the interests of a user. However, in practice, the user-site rating matrix is usually highly sparse, meaning that there are not enough user rating information to perform such tasks. This is know as the cold-start problem. There are many reasons, for example, many users do not want to spend time to rate locations they visited, or locations such as shops do not have an efficient way to ask users for feedback.
+
+To solve this problem, we propose to obtain implicit user rating rather than explicit user ratings. Our approach uses trajectory data to find users that have likely visited a site. 
+Since this data does not explicitly tell us whether the user likes that site, we propose to mine features from the users trajectory, which we intuitively expect to implicitly describe whether the user likes that site. The major features that we propose to obtain from trajectory data include:
+\begin{compactitem}
+\item {\bf The frequency of visits of a user.} If a user visits a site only once in their life, chances are that the user did not like the site enough to return. If the site if frequented often by the user, he seems to like it.
+\item {\bf The length of stay of a user.} If a user stays at site for a long time, that indicates that he likes the site.
+\item {\bf The distance to their home base.} If a user is willing to take a long journey to reach a site, thus bypassing other, similar sites, that indicates that the user is subject to a strong attraction from that site, indicating that the user likes that site.
+\end{compactitem}
+There are several advantages of using pure location data for location rating: (i) A potential solution to the cold-start problem, (ii) no extra user effort to capture their recommendation such as filling in rating forms, and (iii) it is based on user's behavior, thus more objective and prone to alteration by fake-user-ratings and spam/bot-user-ratings.
+%
+Our approach becomes viable, due to the abundance of large open-sources collections of voluntarily contributed trajectory data, including the following data sources:
+\begin{compactitem}
+\item {\bf Location-Based Social Networks (LBSNs)} allows user to ``Check-in'' into a physical site such as a hotel, a restaurant or a metro station. Fairly large LBSN datasets, made anonymous, are available publicly. For instance, the FourSquare dataset used in \cite{yang2014modeling} contains more than 30 million checkins and is available publicly. Such data explicitly includes the sites that a user has visited.
+\item {\bf Geocoded Social Media Data: } is obtainable from public streaming APIs including for Twitter, Instagram, and Flickr. These data sources provide low-frequency trajectory data. Yet, microblogs and images are often published in sites of interest to a user, thus giving implicit information about the users site preferences.
+\item  As part of the effort to create {\bf Open-Street-Map (OSM)} \cite{OSM,hw-osmugsm-08} road network data, users have been uploading GPS traces of their routes to the OSM site. While these routes are typically used to digitize the road network, the majority of routes is uploaded by pedestrians, and can be used as an indicator of sites that the corresponding user frequents. These trajectories are publicly available through the OSM API.
+\item Captured by operating companies of mobile applications. For instance, the augmented reality game ``Pok\'emon Go'' has been downloaded more than 100 million times on Android devices alone \cite{pokemongo}.
+\end{compactitem}
+The goal of this work is making this plethora of trajectory data actionable to improve everyday's life, by recommending better and more individualized sites to users.
+To describe our approach of site-recommendation using trajectory data, the rest of this work is organized as follows. We survey the state-of-the-art on recommender systems and location-based recommendation in Section \ref{sec:rw}. Then, we formally define the problem location-based site recommendation in Section \ref{sec:probdef}. Our solution, using deep-learning to bridge the gap from user-behaviour to user-site-recommendations is given in Section \ref{sec:method}. Our solution is evaluated in Section \ref{sec:exp}, showing that our rating prediction for a restaurant is able to closely predict authoritative ground-truth site-ratings obtained from Yelp. We conclude our work in Section \ref{sec:conclusion}.  

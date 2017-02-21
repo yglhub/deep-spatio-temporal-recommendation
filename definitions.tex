@@ -1,0 +1,34 @@
+\section{Problem Definition}
+\label{sec:probdef}
+In this section we formally define a user-trajectory, and define our notion of a user-site-stay, which we are going
+to use to extract features to estimate the affinity between a user and a site later in Section \ref{sec:method}.
+We first start by defining a trajectory as follows.
+\begin{definition}[Spatio-Temporal Database]
+Let $\mathcal{U}$ denote a set of unique user identifiers, let $\mathcal{G}=[-90,90]\times [-180,180]$ denote the space of longitude/latitude geo-coordinates, and the $\mathcal{T}$ denote the time domain.
+A \emph{spatio-temporal database} $\DB\subseteq \mathcal{U}\times \mathcal{G}\times \mathcal{T}$ is a collection of triples $(id\in\mathcal{U},(lat,long)\in\mathcal{G},t\in\mathcal{T})$. Each triple $(u,s,t)\in\DB$ is called an observation.
+\end{definition}
+We group a spatio-temporal database into observations of the same user, denoted as user-trajectory, formally:
+\begin{definition}[User-Trajectory]
+Let $\DB$ be a spatio-temporal database and let $u\in\mathcal{U}$ be a user. The set
+$$
+\DB(u):=\{(u^\prime,(lat,long),t)\in\DB|u=u^\prime\}
+$$
+is called the user-trajectory of user $u$.
+\end{definition}
+In order to obtain recommendation information from a user-trajectory, we need to link the user-trajectory to sites, such as restaurants and hotels. For this purpose, we join a spatio-temporal database with a database of points of interest (such as provided by Open-Street Map) like restaurants and hotels. Next, we define our notion of a \emph{stay}. A stay is an event of user visiting a site, enriched by the duration of the stay.
+\begin{definition}[Stay Trajectory]
+Let $\DB$ be a spatio-temporal database and let $\mathcal{S}\subseteq \mathcal{G}$ be a collection of $(lat,long)$ pairs of sites. A stay is a triple $(u\in U,s\in\mathcal{S},(t_\text{start},t_\text{end})\in T\times T)$, indicating that user $u$ has stayed at site $s$ from time $t_{start}$ to time $t_{end}$.
+We let $(\DB\bowtie\mathcal{S})$ denote the set of all stays mined from all trajectories $\DB$ using all sites in $\mathcal{S}$.
+The sequence of all stays a user $u\in\mathcal{U}$ is called the stay-trajectory $(\DB\bowtie\mathcal{S})(u)$ of $u$, defined as:
+$$
+(\DB\bowtie\mathcal{S})(u):=\{(u,p,(t_\text{start},t_\text{end}))\in\mathcal{S}|u=u^\prime\}
+$$
+\end{definition}
+Finding stay points in trajectory and PoI databases is a research topic that has raised attention in the past. In this work, we make the explicit assumption that stay points of a trajectory are already given, as we use trajectory datasets where stay points are explicitly labeled. We discuss this assumption and related work on stay-point detection in Section \ref{sec:stay}.
+
+Given stay-trajectories for each user, the challenge of this work is to predict the rating between users and a site. As site is PoI which can be rated by a user, such as a restaurant or a hotel. We assume that we have a recommendation database, where users can rate sites. We assume normalized rating values in the interval $[0,1]$, where $0$ corresponds to the lowest rating and $1$ corresponds to the highest rating.
+\begin{definition}[User-Site Recommendation Database]
+A recommendation database $\mathcal{R}$ is a set of user ratings $\mathcal{R}\subseteq \mathcal{U}\times\mathcal{S}\times [0,1]$.
+\end{definition}
+The task of this work is to predict the triples in $R$. That is, the challenge is to predict the rating that a user $u\in \mathcal{U}$ will give to a site $s\in\mathcal{S}$, using a spatio-temporal given in $\DB$.
+

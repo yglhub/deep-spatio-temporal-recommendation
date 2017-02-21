@@ -1,0 +1,125 @@
+\section{Spatio-Temporal Trend Dissemination Rule Mining}\label{sec:mining}
+This section describes our approach at mining spatio-temporal trend
+dissemination rules. As a first step, we need to acquire past trends, to mind
+dissemination rules from. For this purpose, we apply existing textual trend
+mining solutions proposed in the recent past, which are briefly sketched in
+Section \ref{subsec:Signi} for self-containment. Next, as a second step used for
+preprocessing, we employ a space composition scheme in Section
+\ref{subsec:decomp} to ensure having a similar number of tweets in each spatial
+region using a k-d tree.
+As a third step, we model the flow of trends over space and time in Section
+\ref{subsec:tensor}. Therefore, we transform a \emph{trend count matrix}, as
+defined in Definition \ref{def:trendcountmatrix}, into a \emph{trend flow
+tensor}, which describes the flow from any source region to any target region at any
+point in time for any trend. Consequently, constructing a \emph{trend flow
+tensor} for each trend that we mined in the first step, yields a four-mode Space
+$\times$ Space $\times$ Time $\times$ Trends tensor, which will be fed to our
+fourth step, the mining step. In the mining step proposed in Section
+\ref{subsec:mining}, we employ a tensor factorization approach to discover
+latent features of trends, latent features of trend-source-regions and latent
+features of trend-target-regions. These latent features allow us to cluster
+trends into sets of trends which disseminate similarly over space and time.
+Then, for each cluster of similar trends, we obtain trend flows from the
+\emph{reconstructed trend flow tensor}.
+
+\subsection{Traditional Trend Mining}
+We use SigniTrend \cite{schubert2014signitrend}. {\bf Micheal: Insert a third of
+a column of description of signitrend here for self-containment. PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER
+PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER }
+
+\subsection{Space Decomposition Scheme}
+\begin{figure}[t] \centering \includegraphics[width =
+0.44\columnwidth]{figures/spacedoof}
+    \caption{k-t tree based space decomposition}
+    \label{fig:spacedoof}
+    \vspace{-0em}
+\end{figure}
+To fit a flow model between spatial regions, we need to minimize the bias that
+results from having a non-uniform distribution of tweets on earth. We remedy
+this problem by partitioning the geo-space in a way that minimized the
+difference of tweets between spatial regions. For this purpose, we insert the
+geo-locations of all tweets in our database into a k-d tree, having a maximum
+node capacity of $1000$. Thus, every leaf node of this k-d tree is guaranteed to
+have between $500$ and $1000$ two-dimensional points. Each of this leaf node is
+then used as a spatial region in the remainder of the work. The decomposition
+that we obtained this way is depicted in Figure \ref{fig:spacedoof}.
+
+
+\subsection{Trend Flow Modeling}
+\begin{figure}[t] \centering \includegraphics[width =
+0.44\columnwidth]{figures/megadoof}
+    \caption{Trend Flow Modelling}
+    \label{fig:megadoof}
+    \vspace{-0em}
+\end{figure}
+In this section we describe our approach of obtaining a trend flow from raw
+trend counts. Thus, for a given trend, we consider all $N$ occurrences of this
+trend at some time $t$ and all $M$ occurrences at the next time $t+1$. All the
+regions having the trend at time $t$ can be considered as sources of the trend,
+and all regions having the trend at time $t+1$ can be considered as targets of
+the trend. Yet, we do not know any more specifically, which source region has
+affected which target region and to what degree, since we do not know through
+which channels and medias the trend was disseminated. Thus, due to lack of
+better knowledge, we assume that all sources affect all target uniformly. This
+flow model is formalized as follows
+\begin{definition}[Spatio-Temporal Trend Flow Model]\label{def:tensor}
+Let $\tau(K,T)$ be a trend having a set of keywords $K$ and having a time interval $T=\{T_1,...,T_{|T|}\}$ which covers $|T|$ epochs. Let $\mathcal{S}=\{S_1,...,S_{|\mathcal{S}|}\}$ be a space composition into $|\mathcal{S}|$ spatial regions. 
+Furthermore, let $D(\tau_{K,T})_{i,j}=Occ(\tau_{K,T_i},S_j)$ be the trend count matrix of $\tau(K,T)$. We define the \emph{trend flow model} $F(\tau(K,T))$ of $\tau(K,T)$ as a $\mathcal{S}\times\mathcal{S}\times \{T_1,...,T_{|T-1|}\}$ tensor, such that
+$$
+F(\tau(K,T))_{i,j,k}=\frac{Occ(\tau_{K,T_k},S_i)\cdot Occ(\tau_{K,T_{k+1}},S_i)}{\sum{S_n\in\mathcal{S}}Occ(\tau_{K,T_{k+1}},S_i)}
+$$
+\end{definition}
+Intuitively, an entry $F(\tau(K,T))_{i,j,k}$ of tensor $F(\tau(K,T))$ corresponds to the absolute flow of occurrences from region $S_i$ to region $S_j$ from time $T_k$ to time $T_{k+1}$. 
+\begin{example}  
+To illustrate the construction of tensor $F(\tau(K,T))$, consider an example
+depicted in Figure \ref{fig:megadoof}. Here, the occurrences matrix of a tensor
+of trend ??? is shown for four spatial regions. At the first point of time, the
+trend appears twice in the first region and once in the fourth region, yielding the vector $(2,0,0,1)$. The the second and third point of time, this occurrence distribution is $(3,1,0,5)$ and $(2,1,3,4)$, respectively, yielding the trend count matrix shown in Figure \ref{fig:megadoof}. Transitioning from the first epoch $T_1$ to the second epoch $T_2$, the occurrences change from $(2,0,0,1)$ to $(3,1,0,5)$. The first spatial location $S_1$, having an initial of two tweets, is thus a source of the trend. Since we cannot observe the latent means of dissemination of a trend (through the internet, via TV, radio, word-of-mouth, etc.), we estimate that region $S_1$ disseminates its trend to all other regions having this trend. Since a fraction $\frac{3}{9}$ of all tweets at time $T_2$ are observed in region $S_1$, we estimate a trend-from of $\frac{2\cdot 3}{9}$ from region $S_1$ to itself. In contrast, only one trending tweet is observed at location $S_2$ at time $T_2$, of which we contribute a flow of $\frac{2\cdot 1}{9}$ to $S_1$. Similarly, a flow of $\frac{1\cdot 5}{9}$ is contributed from $S_4$ to $S_4$.
+\end{example}
+It is notable that each time-slice of tensor $F(\tau(K,T))$ is a rank-$1$
+matrix, as all lines are multiples of each other. This redundancy is desirable, as it evenly distributes the flow from all source regions to all target regions, and this redundancy will be removed in a later tensor factorization step.
+For each trend $\tau(K,T)$ we obtain a three-mode tensor as described in Definition \ref{def:tensor}. Concatenating these tensors for each trend $\tau\in\DB_\tau$ yields a four-mode tensor $\mathcal{F}(\DB)$ which is passed into the trend flow mining step described in the following.
+\subsection{Trend Flow Mining}
+\begin{figure}[t]
+	\centering
+\includegraphics[width = 0.44\columnwidth]{figures/tensordoof}
+    \caption{Trend Flow Modelling}
+    \label{fig:tensordoof}
+    \vspace{-0em}
+\end{figure}
+We propose to decompose tensor $\mathcal{F}(\DB)$ using a Canonical / Parafac
+tensor factorization \cite{?} using $k$ latent features, where $k$ is a parameter of our algorithm. As illustrated in Figure \ref{fig:tensordoof}, this factorization decomposes our four-mode $\mathcal{S}\times \mathcal{S} \times T \times \DB_\tau$ tensor into four two-mode matrices:
+\begin{itemize}
+\item a $\mathcal{S}\times k$ matrix containing a $k$-dimensional latent feature vector describing each source spatial region,
+\item a $\mathcal{S}\times k$ matrix containing a $k$-dimensional latent feature vector describing each target spatial region,
+\item a $T\times k$ matrix containing a $k$-dimensional latent feature vector describing each time epoch, and
+\item a $\DB_\tau\times k$ matrix containing a $k$-dimensional latent feature vector describing each trend.
+\end{itemize} 
+These $k$-dimensional feature vectors can be used to identify mutually similar source spatial regions, mutually similar target spatial regions, mutually similar points in time, and mutually similar trends. 
+\subsection{Trend Archetype Clustering}\label{subsec:trendclustering}
+In our first mining step, we identify clusters of mutually similar trends, i.e., trends which have a similar feature vector after the factorization, and thus, since the tensor $\mathcal{F}(\DB)$ describes the flow of trends over time, exhibit a similar dissemination over space and time. Each of the resulting clusters is called a trend archetype. This approach allows to classify future trends among all archetypes, and allows to predict the future dissemination of a new trend by using the dissemination model of their archetype.
+\begin{definition}
+Let $\DB_\tau$ be a set of trends, and for each trend $\tau\in\DB_\tau$ let $\mbox{feat}(\tau)$ be a set of features describing $\tau$. Further, let $\mathcal{C}(\DB_\tau)=\{C_1,C_n\}$ be a clustering of all trends in $\DB_\tau$ into $n$ clusters. Then we denote each cluster $C\in\mathcal{C}$ as an archetype, and all trends $\tau\in C$ are said to belong to the same archetype.
+\end{definition}
+
+\subsection{Trend Archetype Flow Modelling}
+After the trend clustering step of Section \ref{subsec:trendclustering}, we can identify sets of trends which belong to the same dissemination archetype. 
+Therefore, we return to the full tensor $\mathcal{F}(\DB)$, and for each archetype $C\in\mathcal{C}$, we select only the trends $\tau\in C$, thus yielding a $\mathcal{S}\times\mathcal{S}\times T \times C$ tensor $\mathcal{F}(\DB,C)$ for each archetype $C$. Using $\mathcal{F}(\DB,C)$, we perform a projection on two modes $\mathcal{S}\times\mathcal{S}$ by averaging over all trends $\tau\in C$ and all epochs $T_i\in T$ to obtain the flow model of archetype $C$. 
+
+
+
+\section{Experiments}
+- Our tensor factorization exhibits a high quality even for low values of $k$. This inidicates large eigenvalues of the first $k$ latent features, thus indicating that these features are able to accurately describe the whole tensor with little loss of information. Having $k=4$ in our dataset, we observed a $49\%$ ??? measure compared to the undecomposed tensor. 
+- We are able to obtain semantically meaningful clusters using our unsupervised clustering on the latent features of trends. For our Twitter dataset, our obtained clusters can be found in Table ?. The first cluster corresponds to ? trends, the second to ?, ..., ????. 
+- We are able to predict the future dissemination of a trend, by classifiying its cluster type, and assuming a dissemination similar to the dissemination of its trend-archetype.
+

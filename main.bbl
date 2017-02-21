@@ -1,0 +1,149 @@
+\begin{thebibliography}{10}
+
+\bibitem{pokemongo}
+Google play: Pok\'emon go download.
+\newblock
+  \url{https://play.google.com/store/apps/details?id=com.nianticlabs.pokemongo}.
+\newblock Accessed: 2016-08-12.
+
+\bibitem{cheng2012fused}
+C.~Cheng, H.~Yang, I.~King, and M.~R. Lyu.
+\newblock Fused matrix factorization with geographical and social influence in
+  location-based social networks.
+\newblock In {\em Aaai}, volume~12, pages 17--23, 2012.
+
+\bibitem{golle2009anonymity}
+P.~Golle and K.~Partridge.
+\newblock On the anonymity of home/work location pairs.
+\newblock In {\em PerCom}, pages 390--397. Springer, 2009.
+
+\bibitem{hw-osmugsm-08}
+M.~Haklay and P.~Weber.
+\newblock Openstreetmap: User-generated street maps.
+\newblock {\em IEEE Pervasive Computing}, October-December:12--18, 2008.
+
+\bibitem{hinton2012deep}
+G.~Hinton et~al.
+\newblock Deep neural networks for acoustic modeling in speech recognition: The
+  shared views of four research groups.
+\newblock {\em IEEE Signal Processing Magazine}, 29(6):82--97, 2012.
+
+\bibitem{kerdprasop2005weighted}
+K.~Kerdprasop, N.~Kerdprasop, and P.~Sattayatham.
+\newblock Weighted k-means for density-biased clustering.
+\newblock In {\em International Conference on Data Warehousing and Knowledge
+  Discovery}, pages 488--497. Springer, 2005.
+
+\bibitem{MFRec09}
+Y.~Koren, R.~Bell, and C.~Volinsky.
+\newblock Matrix factorization techniques for recommender systems.
+\newblock {\em Computer}, 8:30--37, 2009.
+
+\bibitem{koren2009matrix}
+Y.~Koren, R.~Bell, C.~Volinsky, et~al.
+\newblock Matrix factorization techniques for recommender systems.
+\newblock {\em Computer}, 42(8):30--37, 2009.
+
+\bibitem{krizhevsky2012imagenet}
+A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton.
+\newblock Imagenet classification with deep convolutional neural networks.
+\newblock In {\em Advances in neural information processing systems}, pages
+  1097--1105, 2012.
+
+\bibitem{contentbasedLang95}
+K.~Lang.
+\newblock Newsweeder: Learning to filter netnews.
+\newblock In {\em ICML}, 1995.
+
+\bibitem{li2008mining}
+Q.~Li, Y.~Zheng, X.~Xie, Y.~Chen, W.~Liu, and W.-Y. Ma.
+\newblock Mining user similarity based on location history.
+\newblock In {\em ACM SIGSPATIAL}, 2008.
+
+\bibitem{amazonRecommendation}
+G.~Linden, B.~Smith, and J.~York.
+\newblock Amazon.com recommendations item-to-item collaborative filtering.
+\newblock {\em IEEE Internet Comp.}, 7(1):76--80, 2003.
+
+\bibitem{manyika2011big}
+J.~Manyika, M.~Chui, B.~Brown, J.~Bughin, R.~Dobbs, C.~Roxburgh, and A.~H.
+  Byers.
+\newblock Big data: The next frontier for innovation, competition, and
+  productivity.
+\newblock 2011.
+
+\bibitem{OSM}
+Open street map.
+\newblock http://www.openstreetmap.org.
+
+\bibitem{contentbasedPazzani97}
+M.~Pazzani and D.~Billsus.
+\newblock Learning and revising user profiles: The identification of
+  interesting web sites.
+\newblock {\em Machine Learning}, 27:313--331, 1997.
+
+\bibitem{userUserRec94}
+P.~Resnick, N.~Iacovou, M.~Sushak, P.~Bergstrom, and J.~Riedl.
+\newblock Grouplens: An open architecture for collaborative filtering of
+  netnews.
+\newblock In {\em CSCW}, 1994.
+
+\bibitem{ruiz2013innovative}
+Ruiz-Rodr{\'\i}guez et~al.
+\newblock Innovative continuous non-invasive cuffless blood pressure monitoring
+  based on photoplethysmography technology.
+\newblock {\em Intensive care medicine}, 39(9):1618--1625, 2013.
+
+\bibitem{schmidhuber2015deep}
+J.~Schmidhuber.
+\newblock Deep learning in neural networks: An overview.
+\newblock {\em Neural Networks}, 61:85--117, 2015.
+
+\bibitem{wang2013location}
+H.~Wang, M.~Terrovitis, and N.~Mamoulis.
+\newblock Location recommendation in location-based social networks using user
+  check-in data.
+\newblock In {\em ACM SIGSPATIAL}, pages 374--383, 2013.
+
+\bibitem{xiao2010finding}
+X.~Xiao, Y.~Zheng, Q.~Luo, and X.~Xie.
+\newblock Finding similar users using category-based location history.
+\newblock In {\em ACM SIGSPATIAL}, pages 442--445, 2010.
+
+\bibitem{yang2014modeling}
+D.~Yang, D.~Zhang, V.~W. Zheng, and Z.~Yu.
+\newblock Modeling user activity preference by leveraging user spatial temporal
+  characteristics in lbsns.
+\newblock {\em IEEE Transactions on Systems, Man, and Cybernetics: Systems},
+  45(1):129--142, 2015.
+
+\bibitem{ye2010location}
+M.~Ye, P.~Yin, and W.-C. Lee.
+\newblock Location recommendation for location-based social networks.
+\newblock In {\em ACM SIGSPATIAL}, pages 458--461, 2010.
+
+\bibitem{yu2015survey}
+Y.~Yu and X.~Chen.
+\newblock A survey of point-of-interest recommendation in location-based social
+  networks.
+\newblock In {\em Workshops at the 29th AAAI}, 2015.
+
+\bibitem{zang2011anonymization}
+H.~Zang and J.~Bolot.
+\newblock Anonymization of location data does not work: A large-scale
+  measurement study.
+\newblock In {\em MobiCom}, pages 145--156. ACM, 2011.
+
+\bibitem{zheng2010geolife}
+Y.~Zheng, X.~Xie, and W.-Y. Ma.
+\newblock Geolife: A collaborative social networking service among user,
+  location and trajectory.
+\newblock {\em IEEE Data Eng. Bull.}, 33(2):32--39, 2010.
+
+\bibitem{zheng2009mining}
+Y.~Zheng, L.~Zhang, X.~Xie, and W.-Y. Ma.
+\newblock Mining interesting locations and travel sequences from gps
+  trajectories.
+\newblock In {\em WWW}, pages 791--800. ACM, 2009.
+
+\end{thebibliography}

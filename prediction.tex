@@ -1,0 +1,11 @@
+%!TEX root = ./main.tex
+\section{User-Site Rating Prediction}
+\label{sec:prediction}
+
+Given a set of user trajectories and a set of PoIs visited by these users, we aim at predicting the users' rating for each of the PoI. The rating is usually expressed as a numeric score. We assume the score is no-negative and can be continuous. A higher score corresponds to a better user rating. We propose to use out-of-the-box machine learning algorithms to training the prediction model with the aforementioned spatial-temporal features as input. In order to learn the model, we assume the accurate ratings from some users for certain PoIs are given. This information can usually be extracted from websites that provide reviews of PoIs, such as Yelp, FourSquare, GoogleMap, and TripAdvisor. 
+
+We do not intend to explore existing machine learning techniques in an encyclopaedia way to find the most effective one for our problem. Instead, our goal is to demonstrate the spatial-temporal features of a user has the potential to predict his rating of PoIs he visited. To this end, we choose two representative techniques, \textbf{linear regression} and the standard \textbf{deep neural networks} (DNN)~\cite{schmidhuber2015deep}. Linear regression is chosen due to its simplicity; Deep neural network, although is much more expensive to train, demonstrates good performance in many applications (e.g., \cite{ruiz2013innovative, hinton2012deep, krizhevsky2012imagenet}).
+
+A DNN is a artificial neural network with more than one hidden layer. Each hidden layer consists of certain number of hidden units or neurons. A hidden unit $i$ uses a output function $f(x_i) = y_i$ to map its input $x_i$, received from the previous layer, to an output $y_i$, which is then sent to the next layer. Typical output functions include linear, logistic, sigmoid, softmax, etc. In our experiments, we construct a DNN with a simple fully-connected 4-layer architecture. The DNN is discriminatingly trained by backpropagation. A cost function is used to measure the discrepancy between the target output and predicted value in backpropagating. For our problem, we use Mean Square Error (MSE) as cost function. 
+
+Since we are dealing with a relatively small number of features, here we will not concern ourselves with the problem of handling overfitting and optimizing of training time.
