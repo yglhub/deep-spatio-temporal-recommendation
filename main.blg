@@ -1,10 +1,10 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: main.aux
+White space in argument---line 18 of file main.aux
+ : \citation{golle2009anonymity,
+ :                               zang2011anonymization}
+I'm skipping whatever remains of this command
 The style file: abbrv.bst
 Database file #1: sigproc.bib
-Repeated entry---line 173 of file sigproc.bib
- : @misc{pokemongo
- :                ,
-I'm skipping whatever remains of this entry
 I was expecting a `,' or a `}'---line 336 of file sigproc.bib
  : note = ICONIP 
  :               2009 "
@@ -14,6 +14,9 @@ I was expecting a `,' or a `}'---line 406 of file sigproc.bib
  : @inproceedings{DBLP:conf/icdm/ZhouCY10,
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--to sort, need author or key in pokemongo
-Warning--empty journal in manyika2011big
-(There were 3 error messages)
+I was expecting an "="---line 779 of file sigproc.bib
+ :   
+ :   publisher={Springer}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+(There were 4 error messages)

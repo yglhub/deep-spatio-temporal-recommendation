@@ -1,0 +1,138 @@
+
+%\documentclass{sig-alternate-05-2015}
+%\documentclass[conference]{IEEEtran}
+
+\documentclass{llncs}
+\usepackage{llncsdoc}
+
+\usepackage{microtype}
+%\usepackage{mathptmx}
+%\usepackage[scaled=.90]{helvet}
+%\usepackage{times}
+
+%\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{paralist}
+\DeclareCaptionType{copyrightbox}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{booktabs}
+\usepackage{amssymb}
+\usepackage{url}
+
+%\newtheorem{definition}{Definition}
+%\usepackage{subfigure}
+%\usepackage[skip=1pt]{subcaption}
+
+\usepackage{graphics}
+
+
+\graphicspath{ {figures/} }
+
+\newcommand{\myparatight}[1]{\smallskip\noindent{\bf {#1}:}~}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\todo}[1]{{\textcolor{red}{{\bf TODO:} #1}}}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+
+\newcommand{\DB}{\ensuremath{\mathcal{ST}}}
+\newcommand{\RR}{\ensuremath{\mathbb{R}}}
+\newcommand{\NN}{\ensuremath{\mathbb{N}}}
+\newcommand{\clust}{\ensuremath{\#\mbox{Clust}}}
+
+\newcommand{\TODO}[1]{{\bf \textcolor[rgb]{1.00,0.00,0.00}{TODO: #1}}}
+
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+%\newtheorem{example}{Example}
+
+
+
+
+\begin{document}
+
+
+
+\title{Spatio-Temporal Prediction of Location Ratings using Convolutional Neural Networks}
+
+%\author{Blinded for Double-Blind review\vspace{2cm}}
+\author{Guolei Yang\inst{1} and Andreas Z\"ufle\inst{2}}
+
+\institute{Iowa State University, Ames IA, USA
+\and
+George Mason University, Fairfax, VA, USA}
+%\author{\IEEEauthorblockN{Maximilian Franzke, Tobias Emrich} \IEEEauthorblockA{
+%Ludwig-Maximilians-Universit\"at\\
+%Munich, Germany\\
+%\{franzke, emrich\}@dbs.ifi.lmu.de}
+%\and
+%\IEEEauthorblockN{Andreas Z\"ufle, Matthias Renz}
+%\IEEEauthorblockA{George Mason University\\ Fairfax, VA, USA\\
+%\{azufle, mrenz\}@gmu.edu}
+%\and
+%\IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
+%\IEEEauthorblockA{Starfleet Academy\\
+%San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212\\
+%Fax: (888) 555--1212}
+%}
+%\author{\IEEEauthorblockN{Maximilian Franzke, Tobias Emrich\\} \IEEEauthorblockA{Institute for Informatics\\
+%Ludwig-Maximilians-Universität\\
+%Munich, Germany\\
+%\{franzke, emrich\}@dbs.ifi.lmu.de}
+%\and
+%\IEEEauthorblockN{Andreas Züfle, Matthias Renz\\}
+%\IEEEauthorblockA{George Mason University, Fairfax, VA, USA   \\
+%\{azufle,mrenz\}@gmu.edu}
+%}
+\maketitle
+
+
+
+%\maketitle
+%\vspace{6cm}
+
+
+\begin{abstract}
+
+\end{abstract}
+
+
+
+\input{introduction}
+\input{relatedwork}
+\input{definitions}
+\input{stay}
+\input{featureExtraction}
+\input{prediction}
+%\input{algorithm}
+\input{experiments}
+\input{conclusion}
+
+
+%
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+
+\bibliographystyle{abbrv}
+\tiny{\bibliography{sigproc} } % sigproc.bib is the name of the Bibliography in this case
+% You must have a proper ".bib" file
+%  and remember to run:
+% latex bibtex latex latex
+% to resolve all references
+%
+% ACM needs 'a single self-contained file'!
+%
+%APPENDICES are optional
+%\balancecolumns
+%\appendix
+%Appendix A
+\end{document}

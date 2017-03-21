@@ -1,190 +1,146 @@
+\documentclass{llncs}
 
-%\documentclass{sig-alternate-05-2015}
-\documentclass[conference]{IEEEtran}
-
-
-
-\usepackage{microtype}
-%\usepackage{mathptmx}
-%\usepackage[scaled=.90]{helvet}
-%\usepackage{times}
-
-%\usepackage{mathtools}
-\usepackage{multirow}
-\usepackage{graphicx}
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage{color}
-\usepackage{caption}
-\usepackage{paralist}
-\DeclareCaptionType{copyrightbox}
-%\usepackage{subcaption}
-\newtheorem{definition}{Definition}
+\usepackage{times}
 \usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{epsfig}
+
+
+
+% German umlauts and input
+%\usepackage[iso]{umlaute}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[american,german]{babel}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{bbm}
+%\usepackage{subfigure}
+\usepackage{ifthen}
 \usepackage{url}
+\urlstyle{sf}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-\usepackage{booktabs}
-\usepackage{amssymb}
-\usepackage{url}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+
+\usepackage{paralist}
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{compatibility=false} % This is to suppress the incompatibility between subcaption and llncs document class.
 
 
-%\usepackage{subfigure}
-\usepackage[skip=1pt]{subcaption}
+% \usepackage[numbers,sort]{natbib}
+% \bibliographystyle{splncsnat}
+% \renewcommand\bibname{\refname}
 
-\usepackage{graphics}
 
 
 \graphicspath{ {figures/} }
 
 \newcommand{\myparatight}[1]{\smallskip\noindent{\bf {#1}:}~}
 
-\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-\renewcommand{\algorithmicensure}{\textbf{Output:}}
-\newcommand{\todo}[1]{{\textcolor{red}{{\bf TODO:} #1}}}
-\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 
-\newcommand{\DB}{\ensuremath{\mathcal{ST}}}
+%%%%% Begin Abbrevations
+\newcommand{\DB}{\ensuremath{\mathcal{D}}}
 \newcommand{\RR}{\ensuremath{\mathbb{R}}}
 \newcommand{\NN}{\ensuremath{\mathbb{N}}}
-\newcommand{\clust}{\ensuremath{\#\mbox{Clust}}}
+\newcommand{\eps}{\ensuremath{\varepsilon}}
+\newcommand{\ti}{\ensuremath{t}}
+\newcommand{\ver}{\ensuremath{v}}
 
-\newcommand{\TODO}[1]{{\bf \textcolor[rgb]{1.00,0.00,0.00}{TODO: #1}}}
+\newcommand{\glqq}{``}
+\newcommand{\grqq}{''}
+\newcommand{\latm}{\ensuremath{\phi}}
+\newcommand{\lonm}{\ensuremath{\lambda}}
 
-\newcommand{\argmin}{\operatornamewithlimits{argmin}}
-\newtheorem{example}{Example}
 
+%\newcommand{\KNN}[1]{\ensuremath{{\it NN}_{#1}}}
+\newcommand{\KNN}[1]{\ensuremath{{\it #1NN}}}
+%\newcommand{\RKNN}[1]{\ensuremath{{\it RNN}_{#1}}}
+\newcommand{\RKNN}[1]{\ensuremath{{\it R#1NN}}}
+\newcommand{\dist}{\ensuremath{{\it dist}}}
+\newcommand{\I}{\ensuremath{{\mathcal{I}}}} %index I
+\newcommand{\N}{\ensuremath{{\mathcal{N}}}} %index node N
+\newcommand{\subtree}{\ensuremath{{\textit{subtree}}}} %set of objects organized in the subtree of an index node N
+\newcommand{\hyperplane}{\perp\!\!}
+\newcommand{\objcount}{\ensuremath{{\textit{count}}}} %number of objects a distance approximation relates to
+\newcommand{\K}{\ensuremath{{\mathcal{K}}}} %key of index node K(N)
+\newcommand{\nndist}{\ensuremath{\textit{nn-dist}}} %nearest-neighbor distance
+\newcommand{\knndist}{\ensuremath{\textit{kNN-dist}}} %nearest-neighbor distance
+\newcommand{\LBnndist}{\ensuremath{\textit{LB\_nn-dist}}} %lower bounding nearest-neighbor distance
+\newcommand{\UBnndist}{\ensuremath{\textit{UB\_nn-dist}}} %upper bounding nearest-neighbor distance
+\newcommand{\MinDist}{\ensuremath{\textit{MinDist}}} %MinDist function
+\newcommand{\MaxDist}{\ensuremath{\textit{MaxDist}}} %MaxDist function
+\newcommand{\MinMaxDist}{\ensuremath{\textit{MinMaxDist}}} %MinMaxDist function
+\newcommand{\MaxMinDist}{\ensuremath{\textit{MaxMinDist}}} %MinMaxDist function
+\newcommand{\MMDist}{\ensuremath{\textit{MMDist}}} %minimal MinDist function
+\newcommand{\MMMDist}{\ensuremath{\textit{MMMDist}}} %minimal MinMaxDist function
+\newcommand{\kMMMDist}{\ensuremath{\textit{k-MMMDist}}} %k minimal MinMaxDist function
+\newcommand{\kMMDist}{\ensuremath{\textit{k-MMDist}}} %k minimal MinDist function
+\newcommand{\hyperplanes}{hyper-planes} %set of hyper planes
+%\newcommand{\hyperplane}{hyper-plane} %hyper plane
+\newcommand{\Quant}{\ensuremath{\mathcal{Q}}} %quantity value Q of a distance approximation
+\newcommand{\W}{\ensuremath{\textit{w}}} %weight of a hyper-plane
+\newcommand{\updateI} {update\textrm{I}}
+\newcommand{\updateII} {update\textrm{II}}
+\renewcommand{\S}{\ensuremath{\mathcal{S}}} %weight of a hyper-plane
+\newcommand{\Q}{\ensuremath{\mathcal{Q}}} %priority queue
+\newcommand{\sd}{\ensuremath{\mathcal{S}}} %priority queue
+\newcommand{\td}{\ensuremath{\mathcal{T}}} %priority queue
 
+%%%%% End Abbrevations
 
+%%%%% Begin Environemnts
+%\newtheorem{definition}{Definition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{example}{Example}
+%%%%% End Environements
+
+\pdfoptionpdfminorversion=6
 
 \begin{document}
+\frontmatter          % for the preliminaries
+
+%\pagestyle{headings}  % switches on printing of running heads
+%\addtocmark{Hamiltonian Mechanics} % additional mark in the TOC
 
 
+\title{Spatio-Temporal Prediction of Location Ratings}
 
-\title{A Recurrent Neural Network Framework for Spatio-Temporal Site Recommendation}
 
-%\author{Blinded for Double-Blind review\vspace{2cm}}
-\author{\IEEEauthorblockN{Guolei Yang}
-\IEEEauthorblockA{Iowa State University\\ Ames, IA, USA\\
-yanggl@iastate.edu}
+\author{Guolei Yang\inst{1} \and Andreas Z\"ufle\inst{2}}
+
+\institute{Iowa State University, Ames IA, USA\\
+\email{yanggl@iastate.edu}
 \and
-\IEEEauthorblockN{Andreas Z\"ufle}
-\IEEEauthorblockA{George Mason University\\ Fairfax, VA, USA\\
-azufle@gmu.edu}
-} 
-%\author{\IEEEauthorblockN{Maximilian Franzke, Tobias Emrich} \IEEEauthorblockA{
-%Ludwig-Maximilians-Universit\"at\\
-%Munich, Germany\\
-%\{franzke, emrich\}@dbs.ifi.lmu.de}
-%\and
-%\IEEEauthorblockN{Andreas Z\"ufle, Matthias Renz}
-%\IEEEauthorblockA{George Mason University\\ Fairfax, VA, USA\\
-%\{azufle, mrenz\}@gmu.edu}
-%\and
-%\IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
-%\IEEEauthorblockA{Starfleet Academy\\
-%San Francisco, California 96678-2391\\
-%Telephone: (800) 555--1212\\
-%Fax: (888) 555--1212}
-%}
-%\author{\IEEEauthorblockN{Maximilian Franzke, Tobias Emrich\\} \IEEEauthorblockA{Institute for Informatics\\
-%Ludwig-Maximilians-Universität\\
-%Munich, Germany\\
-%\{franzke, emrich\}@dbs.ifi.lmu.de}
-%\and
-%\IEEEauthorblockN{Andreas Züfle, Matthias Renz\\}
-%\IEEEauthorblockA{George Mason University, Fairfax, VA, USA   \\
-%\{azufle,mrenz\}@gmu.edu}
-%}
-\maketitle
-
+George Mason University, Fairfax, VA, USA\\
+\email{azufle@gmu.edu}}
 
 
 \maketitle
-\vspace{6cm}
-
 
 \begin{abstract}
-
+Pint-of-Interest (PoI) rating is a ``score" that measures the overall quality of the PoI's service. As more and more people relies on Location-Based Service (LBS) to find PoIs of interet, PoI rating becomes a crucial factor that affects user's decision and more. It also determine the rank of an PoI in user's searching results and location recommendation results. As such, a rating that accurately reflects the quality of the PoI is a fundamental requirement for these applications to be possible. However, PoI ratings generated by LBS is known to be vulnerable to shilling attacks and may not be subjective. This is due to the fact that PoI ratings largely depend on explicit user ratings and written reviews. In this paper, we propose to leverage visitors' trajectory to predict the rating of a PoI, which does not suffer from these problems. We propose a visiting-pattern-based PoI rating prediction framework, which is based on our analysis of the Foursquare check-in dataset. The core of the proposed framework is a novel regression model that captures the spatio-temporal characteristic of visits from different users. Experiment shows that our method outperforms simply counting based method, as well as method based on state-of-the-art user-location rating techniques. 
 \end{abstract}
 
 
-%
-% The code below should be generated by the tool at
-% http://dl.acm.org/ccs.cfm
-% Please copy and paste the code instead of the example below.
-%
-%\begin{CCSXML}
-%<ccs2012>
-% <concept>
-%  <concept_id>10010520.10010553.10010562</concept_id>
-%  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
-%  <concept_significance>500</concept_significance>
-% </concept>
-% <concept>
-%  <concept_id>10010520.10010575.10010755</concept_id>
-%  <concept_desc>Computer systems organization~Redundancy</concept_desc>
-%  <concept_significance>300</concept_significance>
-% </concept>
-% <concept>
-%  <concept_id>10010520.10010553.10010554</concept_id>
-%  <concept_desc>Computer systems organization~Robotics</concept_desc>
-%  <concept_significance>100</concept_significance>
-% </concept>
-% <concept>
-%  <concept_id>10003033.10003083.10003095</concept_id>
-%  <concept_desc>Networks~Network reliability</concept_desc>
-%  <concept_significance>100</concept_significance>
-% </concept>
-%</ccs2012>
-%\end{CCSXML}
-%
-%\ccsdesc[500]{Computer systems organization~Embedded systems}
-%\ccsdesc[300]{Computer systems organization~Redundancy}
-%\ccsdesc{Computer systems organization~Robotics}
-%\ccsdesc[100]{Networks~Network reliability}
 
-
-%
-% End generated code
-%
-
-%
-%  Use this command to print the description
-%
-%\printccsdesc
-
-% We no longer use \terms command
-%\terms{Theory}
-
-%\keywords{graph mining, social networks, attributed graph, non-redundant, overlapping, parameter-free}
+\sloppy
 
 \input{introduction}
 \input{relatedwork}
 \input{definitions}
 \input{stay}
 \input{featureExtraction}
-\input{prediction}
+%\input{prediction}
 %\input{algorithm}
 \input{experiments}
 \input{conclusion}
 
 
-%
-% The following two commands are all you need in the
-% initial runs of your .tex file to
-
 \bibliographystyle{abbrv}
-\tiny{\bibliography{sigproc} } % sigproc.bib is the name of the Bibliography in this case
-% You must have a proper ".bib" file
-%  and remember to run:
-% latex bibtex latex latex
-% to resolve all references
-%
-% ACM needs 'a single self-contained file'!
-%
-%APPENDICES are optional
-%\balancecolumns
-%\appendix
-%Appendix A
+\bibliography{sigproc}
+%\bibliography{abbreviations,literature}
+
 \end{document}
